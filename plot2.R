@@ -1,0 +1,10 @@
+d <- read.csv("household_power_consumption.txt", sep = ";", stringsAsFactors = FALSE, header = TRUE)
+d$Date <- dmy(d$Date)
+d <- tbl_df(d)
+ds <- filter(d, Date >= as.Date("2007-02-01") & Date <= as.Date("2007-02-02"))
+ds$Timestamp <- as.POSIXct(paste(ds$Date, ds$Time))
+ds$Global_active_power = as.numeric(ds$Global_active_power)
+
+plot(ds$Global_active_power~ds$Timestamp, type="l", ylab = "Global Active Power (kilowatts)", xlab = "")
+dev.copy(png, file="plot2.png", height=480, width=480)
+dev.off()
